@@ -27,10 +27,16 @@ class Item(Resource):
         items.append(item)
         return item, 201
 
+    def delete(self, name):
+        global items
+        items = list(filter(lambda x: x['name'] != name, items))
+        return {'message': 'item deleted'}
+
 class ItemList(Resource):
     def get(self):
         return {'items': items}
 
 api.add_resource(Item, '/item/<string:name>') #http://127.0.0.1/student/ROLF
+api.add_resource(ItemList, '/items')
 
 app.run(port=5000)
